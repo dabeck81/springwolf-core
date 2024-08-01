@@ -21,7 +21,8 @@ class HeaderClassExtractorTest {
     private final SwaggerSchemaService schemaService = mock(SwaggerSchemaService.class);
     private final HeaderClassExtractor headerClassExtractor = new HeaderClassExtractor(schemaService);
 
-    private final NamedSchemaObject payloadSchemaName = new NamedSchemaObject("payloadSchemaName", new SchemaObject());
+    private final NamedSchemaObject payloadSchemaName =
+            new NamedSchemaObject("payloadSchemaName", new SchemaObject(), null);
     private final SchemaObject stringSchema =
             SchemaObject.builder().type("string").build();
     private final SchemaObject stringSwaggerSchema =

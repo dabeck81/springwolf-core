@@ -74,7 +74,7 @@ class SpringAnnotationMethodLevelChannelsScannerTest {
         doReturn(defaultMessageBinding).when(bindingFactory).buildMessageBinding(any(), any());
 
         when(payloadMethodService.extractSchema(any()))
-                .thenReturn(new NamedSchemaObject(String.class.getName(), new SchemaObject()));
+                .thenReturn(new NamedSchemaObject(String.class.getName(), new SchemaObject(), null));
         doAnswer(invocation -> AsyncHeadersNotDocumented.NOT_DOCUMENTED.getTitle())
                 .when(componentsService)
                 .registerSchema(any(SchemaObject.class));
@@ -82,11 +82,11 @@ class SpringAnnotationMethodLevelChannelsScannerTest {
         var stringMethod =
                 ClassWithMultipleTestListenerAnnotation.class.getDeclaredMethod("methodWithAnnotation", String.class);
         when(payloadMethodService.extractSchema(stringMethod))
-                .thenReturn(new NamedSchemaObject(String.class.getName(), new SchemaObject()));
+                .thenReturn(new NamedSchemaObject(String.class.getName(), new SchemaObject(), null));
         var simpleFooMethod = ClassWithMultipleTestListenerAnnotation.class.getDeclaredMethod(
                 "anotherMethodWithAnnotation", SimpleFoo.class);
         when(payloadMethodService.extractSchema(simpleFooMethod))
-                .thenReturn(new NamedSchemaObject(SimpleFoo.class.getName(), new SchemaObject()));
+                .thenReturn(new NamedSchemaObject(SimpleFoo.class.getName(), new SchemaObject(), null));
     }
 
     @Test

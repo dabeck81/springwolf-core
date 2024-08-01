@@ -75,7 +75,7 @@ class SpringAnnotationClassLevelOperationsScannerTest {
         doReturn(defaultMessageBinding).when(bindingFactory).buildMessageBinding(any(), any());
 
         when(payloadMethodService.extractSchema(any()))
-                .thenReturn(new NamedSchemaObject(String.class.getName(), new SchemaObject()));
+                .thenReturn(new NamedSchemaObject(String.class.getName(), new SchemaObject(), null));
         doAnswer(invocation -> AsyncHeadersNotDocumented.NOT_DOCUMENTED.getTitle())
                 .when(componentsService)
                 .registerSchema(any(SchemaObject.class));
