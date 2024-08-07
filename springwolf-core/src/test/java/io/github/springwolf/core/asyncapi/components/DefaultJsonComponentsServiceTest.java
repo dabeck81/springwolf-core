@@ -16,6 +16,7 @@ import io.github.springwolf.core.asyncapi.components.examples.walkers.json.Examp
 import io.github.springwolf.core.asyncapi.components.postprocessors.ExampleGeneratorPostProcessor;
 import io.github.springwolf.core.asyncapi.schemas.SwaggerSchemaService;
 import io.github.springwolf.core.asyncapi.schemas.SwaggerSchemaUtil;
+import io.github.springwolf.core.asyncapi.schemas.converters.SchemaTitleModelConverter;
 import io.github.springwolf.core.configuration.properties.SpringwolfConfigProperties;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -48,7 +49,7 @@ class DefaultJsonComponentsServiceTest {
     private static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
 
     private final SwaggerSchemaService schemaService = new SwaggerSchemaService(
-            List.of(),
+            List.of(new SchemaTitleModelConverter()),
             List.of(new ExampleGeneratorPostProcessor(
                     new SchemaWalkerProvider(List.of(new DefaultSchemaWalker<>(new ExampleJsonValueGenerator()))))),
             new SwaggerSchemaUtil(),
@@ -62,8 +63,8 @@ class DefaultJsonComponentsServiceTest {
 
     @Test
     void getSchemas() throws IOException {
-        componentsService.registerSchema(CompositeFoo.class, CONTENT_TYPE_APPLICATION_JSON);
-        componentsService.registerSchema(FooWithEnum.class, CONTENT_TYPE_APPLICATION_JSON);
+        componentsService.resolvePayloadSchema(CompositeFoo.class, CONTENT_TYPE_APPLICATION_JSON);
+        componentsService.resolvePayloadSchema(FooWithEnum.class, CONTENT_TYPE_APPLICATION_JSON);
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/definitions.json");
@@ -74,7 +75,7 @@ class DefaultJsonComponentsServiceTest {
 
     @Test
     void getDocumentedDefinitions() throws IOException {
-        componentsService.registerSchema(DocumentedSimpleFoo.class, CONTENT_TYPE_APPLICATION_JSON);
+        componentsService.resolvePayloadSchema(DocumentedSimpleFoo.class, CONTENT_TYPE_APPLICATION_JSON);
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/documented-definitions.json");
@@ -85,7 +86,7 @@ class DefaultJsonComponentsServiceTest {
 
     @Test
     void getArrayDefinitions() throws IOException {
-        componentsService.registerSchema(ArrayFoo.class, CONTENT_TYPE_APPLICATION_JSON);
+        componentsService.resolvePayloadSchema(ArrayFoo.class, CONTENT_TYPE_APPLICATION_JSON);
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/array-definitions.json");
@@ -96,7 +97,7 @@ class DefaultJsonComponentsServiceTest {
 
     @Test
     void getComplexDefinitions() throws IOException {
-        componentsService.registerSchema(ComplexFoo.class, CONTENT_TYPE_APPLICATION_JSON);
+        componentsService.resolvePayloadSchema(ComplexFoo.class, CONTENT_TYPE_APPLICATION_JSON);
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/complex-definitions.json");
@@ -107,7 +108,7 @@ class DefaultJsonComponentsServiceTest {
 
     @Test
     void getListWrapperDefinitions() throws IOException {
-        componentsService.registerSchema(ListWrapper.class, CONTENT_TYPE_APPLICATION_JSON);
+        componentsService.resolvePayloadSchema(ListWrapper.class, CONTENT_TYPE_APPLICATION_JSON);
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/generics-wrapper-definitions.json");
@@ -228,7 +229,7 @@ class DefaultJsonComponentsServiceTest {
     class SchemaWithOneOf {
         @Test
         void testSchemaWithOneOf() throws IOException {
-            componentsService.registerSchema(SchemaAnnotationFoo.class, CONTENT_TYPE_APPLICATION_JSON);
+            componentsService.resolvePayloadSchema(SchemaAnnotationFoo.class, CONTENT_TYPE_APPLICATION_JSON);
 
             String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
             String expected = jsonResource("/schemas/annotation-definitions.json");
@@ -274,7 +275,7 @@ class DefaultJsonComponentsServiceTest {
     class AsyncApiPayloadTest {
         @Test
         void stringEnvelopTest() throws IOException {
-            componentsService.registerSchema(StringEnvelop.class, CONTENT_TYPE_APPLICATION_JSON);
+            componentsService.resolvePayloadSchema(StringEnvelop.class, CONTENT_TYPE_APPLICATION_JSON);
 
             String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
             String expected = jsonResource("/schemas/api-payload.json");
@@ -287,7 +288,7 @@ class DefaultJsonComponentsServiceTest {
 
         @Test
         void illegalEnvelopTest() throws IOException {
-            componentsService.registerSchema(
+            componentsService.resolvePayloadSchema(
                     EnvelopWithMultipleAsyncApiPayloadAnnotations.class, CONTENT_TYPE_APPLICATION_JSON);
 
             String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
@@ -322,7 +323,7 @@ class DefaultJsonComponentsServiceTest {
     class RecursionTest {
         @Test
         void registerSchemaWithoutStackOverflowException() throws IOException {
-            componentsService.registerSchema(CriteriaMessage.class, CONTENT_TYPE_APPLICATION_JSON);
+            componentsService.resolvePayloadSchema(CriteriaMessage.class, CONTENT_TYPE_APPLICATION_JSON);
 
             String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
 
@@ -359,7 +360,7 @@ class DefaultJsonComponentsServiceTest {
     class JsonTypeTest {
         @Test
         void getJsonTypeDefinitions() throws IOException {
-            componentsService.registerSchema(JsonTypeInfoPayloadDto.class, CONTENT_TYPE_APPLICATION_JSON);
+            componentsService.resolvePayloadSchema(JsonTypeInfoPayloadDto.class, CONTENT_TYPE_APPLICATION_JSON);
 
             String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
             String expected = jsonResource("/schemas/json-type-definitions.json");

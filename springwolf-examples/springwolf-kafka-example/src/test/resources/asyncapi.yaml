@@ -20,8 +20,8 @@ channels:
   another-topic:
     address: another-topic
     messages:
-      io.github.springwolf.examples.kafka.dtos.AnotherPayloadDto:
-        $ref: "#/components/messages/io.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
+      java.util.ListIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto:
+        $ref: "#/components/messages/java.util.ListIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
     bindings:
       kafka:
         bindingVersion: 0.5.0
@@ -41,8 +41,8 @@ channels:
   integer-topic:
     address: integer-topic
     messages:
-      java.lang.Number:
-        $ref: "#/components/messages/java.lang.Number"
+      java.lang.Integer:
+        $ref: "#/components/messages/java.lang.Integer"
     bindings:
       kafka:
         bindingVersion: 0.5.0
@@ -326,25 +326,25 @@ components:
           kafka_receivedMessageKey:
             type: string
         type: object
-    SpringKafkaDefaultHeaders-Integer:
+    SpringKafkaDefaultHeaders-ListAnotherPayloadDto:
       type: object
       properties:
         __TypeId__:
           type: string
           description: Spring Type Id Header
           enum:
-            - java.lang.Number
+            - java.util.ListIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto
           examples:
-            - java.lang.Number
+            - java.util.ListIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto
       examples:
-        - __TypeId__: java.lang.Number
+        - __TypeId__: java.util.ListIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto
       x-json-schema:
         $schema: https://json-schema.org/draft-04/schema#
         properties:
           __TypeId__:
             description: Spring Type Id Header
             enum:
-              - java.lang.Number
+              - java.util.ListIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto
             type: string
         type: object
     SpringKafkaDefaultHeaders-Message:
@@ -410,27 +410,6 @@ components:
               - PayloadNotUsed
             type: string
         type: object
-    SpringKafkaDefaultHeaders-String:
-      type: object
-      properties:
-        __TypeId__:
-          type: string
-          description: Spring Type Id Header
-          enum:
-            - java.lang.String
-          examples:
-            - java.lang.String
-      examples:
-        - __TypeId__: java.lang.String
-      x-json-schema:
-        $schema: https://json-schema.org/draft-04/schema#
-        properties:
-          __TypeId__:
-            description: Spring Type Id Header
-            enum:
-              - java.lang.String
-            type: string
-        type: object
     SpringKafkaDefaultHeaders-VehicleBase:
       type: object
       properties:
@@ -494,8 +473,49 @@ components:
               - io.github.springwolf.examples.kafka.dtos.YamlPayloadDto
             type: string
         type: object
+    SpringKafkaDefaultHeaders-integer:
+      type: object
+      properties:
+        __TypeId__:
+          type: string
+          description: Spring Type Id Header
+          enum:
+            - java.lang.Integer
+          examples:
+            - java.lang.Integer
+      examples:
+        - __TypeId__: java.lang.Integer
+      x-json-schema:
+        $schema: https://json-schema.org/draft-04/schema#
+        properties:
+          __TypeId__:
+            description: Spring Type Id Header
+            enum:
+              - java.lang.Integer
+            type: string
+        type: object
+    SpringKafkaDefaultHeaders-string:
+      type: object
+      properties:
+        __TypeId__:
+          type: string
+          description: Spring Type Id Header
+          enum:
+            - java.lang.String
+          examples:
+            - java.lang.String
+      examples:
+        - __TypeId__: java.lang.String
+      x-json-schema:
+        $schema: https://json-schema.org/draft-04/schema#
+        properties:
+          __TypeId__:
+            description: Spring Type Id Header
+            enum:
+              - java.lang.String
+            type: string
+        type: object
     io.github.springwolf.examples.kafka.consumers.StringConsumer$StringEnvelope:
-      title: StringEnvelope
       type: string
       description: Payload description using @Schema annotation and @AsyncApiPayload
         within envelope class
@@ -507,7 +527,6 @@ components:
         description: Payload description using @Schema annotation and @AsyncApiPayload
           within envelope class
         maxLength: 100
-        title: StringEnvelope
         type: string
     io.github.springwolf.examples.kafka.dto.avro.AnotherPayloadAvroDto:
       title: AnotherPayloadAvroDto
@@ -536,6 +555,7 @@ components:
                 type: integer
               someString:
                 type: string
+            title: ExamplePayloadAvroDto
             type: object
           someEnum:
             enum:
@@ -546,6 +566,7 @@ components:
         title: AnotherPayloadAvroDto
         type: object
     io.github.springwolf.examples.kafka.dto.avro.ExamplePayloadAvroDto:
+      title: ExamplePayloadAvroDto
       type: object
       properties:
         someLong:
@@ -564,6 +585,7 @@ components:
             type: integer
           someString:
             type: string
+        title: ExamplePayloadAvroDto
         type: object
     io.github.springwolf.examples.kafka.dto.proto.ExamplePayloadProtobufDto$Message:
       title: Message
@@ -1002,26 +1024,7 @@ components:
             type: object
         description: Gasoline vehicle implementation of VehicleBase
         type: object
-    java.lang.Number:
-      title: Integer
-      type: number
-      examples:
-        - 1.1
-      x-json-schema:
-        $schema: https://json-schema.org/draft-04/schema#
-        title: Integer
-        type: number
-    java.lang.String:
-      title: String
-      type: string
-      examples:
-        - '"string"'
-      x-json-schema:
-        $schema: https://json-schema.org/draft-04/schema#
-        title: String
-        type: string
     javax.money.MonetaryAmount:
-      title: MonetaryAmount
       type: object
       properties:
         amount:
@@ -1044,7 +1047,6 @@ components:
             type: number
           currency:
             type: string
-        title: MonetaryAmount
         type: object
   messages:
     PayloadNotUsed:
@@ -1053,7 +1055,9 @@ components:
       payload:
         schemaFormat: application/vnd.aai.asyncapi+json;version=3.0.0
         schema:
-          $ref: "#/components/schemas/PayloadNotUsed"
+          title: PayloadNotUsed
+          properties: {}
+          description: No payload specified
       name: PayloadNotUsed
       title: PayloadNotUsed
       bindings:
@@ -1068,8 +1072,7 @@ components:
           $ref: "#/components/schemas/io.github.springwolf.examples.kafka.consumers.StringConsumer$StringEnvelope"
       name: StringPayload
       title: StringEnvelope
-      description: Payload description using @Schema annotation and @AsyncApiPayload
-        within envelope class
+      description: ""
       bindings:
         kafka:
           bindingVersion: 0.5.0
@@ -1082,6 +1085,7 @@ components:
           $ref: "#/components/schemas/io.github.springwolf.examples.kafka.dto.avro.AnotherPayloadAvroDto"
       name: io.github.springwolf.examples.kafka.dto.avro.AnotherPayloadAvroDto
       title: AnotherPayloadAvroDto
+      description: ""
       bindings:
         kafka:
           bindingVersion: 0.5.0
@@ -1134,7 +1138,7 @@ components:
           $ref: "#/components/schemas/io.github.springwolf.examples.kafka.dtos.NestedPayloadDto"
       name: io.github.springwolf.examples.kafka.dtos.NestedPayloadDto
       title: NestedPayloadDto
-      description: Payload model with nested complex types
+      description: ""
       bindings:
         kafka:
           key:
@@ -1177,35 +1181,48 @@ components:
       payload:
         schemaFormat: application/vnd.aai.asyncapi+json;version=3.0.0
         schema:
-          oneOf:
-            - $ref: "#/components/schemas/io.github.springwolf.examples.kafka.dtos.discriminator.VehicleElectricPayloadDto"
-            - $ref: "#/components/schemas/io.github.springwolf.examples.kafka.dtos.discriminator.VehicleGasolinePayloadDto"
+          $ref: "#/components/schemas/io.github.springwolf.examples.kafka.dtos.discriminator.VehicleBase"
       name: io.github.springwolf.examples.kafka.dtos.discriminator.VehicleBase
       title: VehicleBase
       bindings:
         kafka:
           bindingVersion: 0.5.0
-    java.lang.Number:
+    java.lang.Integer:
       headers:
-        $ref: "#/components/schemas/SpringKafkaDefaultHeaders-Integer"
+        $ref: "#/components/schemas/SpringKafkaDefaultHeaders-integer"
       payload:
         schemaFormat: application/vnd.aai.asyncapi+json;version=3.0.0
         schema:
-          $ref: "#/components/schemas/java.lang.Number"
-      name: java.lang.Number
-      title: Integer
+          type: integer
+          format: int32
+      name: java.lang.Integer
+      title: integer
       bindings:
         kafka:
           bindingVersion: 0.5.0
     java.lang.String:
       headers:
-        $ref: "#/components/schemas/SpringKafkaDefaultHeaders-String"
+        $ref: "#/components/schemas/SpringKafkaDefaultHeaders-string"
       payload:
         schemaFormat: application/vnd.aai.asyncapi+json;version=3.0.0
         schema:
-          $ref: "#/components/schemas/java.lang.String"
+          type: string
       name: java.lang.String
-      title: String
+      title: string
+      bindings:
+        kafka:
+          bindingVersion: 0.5.0
+    java.util.ListIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto:
+      headers:
+        $ref: "#/components/schemas/SpringKafkaDefaultHeaders-ListAnotherPayloadDto"
+      payload:
+        schemaFormat: application/vnd.aai.asyncapi+json;version=3.0.0
+        schema:
+          type: array
+          items:
+            $ref: "#/components/schemas/io.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
+      name: java.util.ListIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto
+      title: ListAnotherPayloadDto
       bindings:
         kafka:
           bindingVersion: 0.5.0
@@ -1218,6 +1235,7 @@ components:
           $ref: "#/components/schemas/javax.money.MonetaryAmount"
       name: javax.money.MonetaryAmount
       title: MonetaryAmount
+      description: ""
       bindings:
         kafka:
           key:
@@ -1239,7 +1257,7 @@ operations:
             - example-group-id
         bindingVersion: 0.5.0
     messages:
-      - $ref: "#/channels/another-topic/messages/io.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
+      - $ref: "#/channels/another-topic/messages/java.util.ListIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
   avro-topic_receive_receiveExampleAvroPayload:
     action: receive
     channel:
@@ -1269,7 +1287,7 @@ operations:
       kafka:
         bindingVersion: 0.5.0
     messages:
-      - $ref: "#/channels/integer-topic/messages/java.lang.Number"
+      - $ref: "#/channels/integer-topic/messages/java.lang.Integer"
   multi-payload-topic_receive_ExampleClassLevelKafkaListener:
     action: receive
     channel:

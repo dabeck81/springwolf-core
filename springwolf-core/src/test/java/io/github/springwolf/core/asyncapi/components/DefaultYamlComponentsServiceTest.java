@@ -18,6 +18,7 @@ import io.github.springwolf.core.asyncapi.components.examples.walkers.yaml.Examp
 import io.github.springwolf.core.asyncapi.components.postprocessors.ExampleGeneratorPostProcessor;
 import io.github.springwolf.core.asyncapi.schemas.SwaggerSchemaService;
 import io.github.springwolf.core.asyncapi.schemas.SwaggerSchemaUtil;
+import io.github.springwolf.core.asyncapi.schemas.converters.SchemaTitleModelConverter;
 import io.github.springwolf.core.configuration.properties.SpringwolfConfigProperties;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -53,7 +54,7 @@ class DefaultYamlComponentsServiceTest {
             springwolfConfigProperties);
 
     private final SwaggerSchemaService schemaService = new SwaggerSchemaService(
-            List.of(),
+            List.of(new SchemaTitleModelConverter()),
             List.of(new ExampleGeneratorPostProcessor(
                     new SchemaWalkerProvider(List.of(new DefaultSchemaWalker<>(exampleYamlValueGenerator))))),
             new SwaggerSchemaUtil(),
@@ -67,8 +68,8 @@ class DefaultYamlComponentsServiceTest {
 
     @Test
     void getSchemas() throws IOException {
-        componentsService.registerSchema(CompositeFoo.class, CONTENT_TYPE_APPLICATION_YAML);
-        componentsService.registerSchema(FooWithEnum.class, CONTENT_TYPE_APPLICATION_YAML);
+        componentsService.resolvePayloadSchema(CompositeFoo.class, CONTENT_TYPE_APPLICATION_YAML);
+        componentsService.resolvePayloadSchema(FooWithEnum.class, CONTENT_TYPE_APPLICATION_YAML);
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/yaml/definitions-yaml.json");
@@ -79,7 +80,7 @@ class DefaultYamlComponentsServiceTest {
 
     @Test
     void getDocumentedDefinitions() throws IOException {
-        componentsService.registerSchema(DocumentedSimpleFoo.class, CONTENT_TYPE_APPLICATION_YAML);
+        componentsService.resolvePayloadSchema(DocumentedSimpleFoo.class, CONTENT_TYPE_APPLICATION_YAML);
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/yaml/documented-definitions-yaml.json");
@@ -90,7 +91,7 @@ class DefaultYamlComponentsServiceTest {
 
     @Test
     void getArrayDefinitions() throws IOException {
-        componentsService.registerSchema(ArrayFoo.class, CONTENT_TYPE_APPLICATION_YAML);
+        componentsService.resolvePayloadSchema(ArrayFoo.class, CONTENT_TYPE_APPLICATION_YAML);
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/yaml/array-definitions-yaml.json");
@@ -101,7 +102,7 @@ class DefaultYamlComponentsServiceTest {
 
     @Test
     void getComplexDefinitions() throws IOException {
-        componentsService.registerSchema(ComplexFoo.class, CONTENT_TYPE_APPLICATION_YAML);
+        componentsService.resolvePayloadSchema(ComplexFoo.class, CONTENT_TYPE_APPLICATION_YAML);
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/yaml/complex-definitions-yaml.json");
@@ -112,7 +113,7 @@ class DefaultYamlComponentsServiceTest {
 
     @Test
     void getListWrapperDefinitions() throws IOException {
-        componentsService.registerSchema(ListWrapper.class, CONTENT_TYPE_APPLICATION_YAML);
+        componentsService.resolvePayloadSchema(ListWrapper.class, CONTENT_TYPE_APPLICATION_YAML);
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/yaml/generics-wrapper-definitions-yaml.json");
@@ -233,7 +234,7 @@ class DefaultYamlComponentsServiceTest {
     class SchemaWithOneOf {
         @Test
         void testSchemaWithOneOf() throws IOException {
-            componentsService.registerSchema(SchemaAnnotationFoo.class, CONTENT_TYPE_APPLICATION_YAML);
+            componentsService.resolvePayloadSchema(SchemaAnnotationFoo.class, CONTENT_TYPE_APPLICATION_YAML);
 
             String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
             String expected = jsonResource("/schemas/yaml/annotation-definitions-yaml.json");
@@ -279,7 +280,7 @@ class DefaultYamlComponentsServiceTest {
     class AsyncApiPayloadTest {
         @Test
         void stringEnvelopTest() throws IOException {
-            componentsService.registerSchema(StringEnvelop.class, CONTENT_TYPE_APPLICATION_YAML);
+            componentsService.resolvePayloadSchema(StringEnvelop.class, CONTENT_TYPE_APPLICATION_YAML);
 
             String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
             String expected = jsonResource("/schemas/yaml/api-payload-yaml.json");
@@ -292,7 +293,7 @@ class DefaultYamlComponentsServiceTest {
 
         @Test
         void illegalEnvelopTest() throws IOException {
-            componentsService.registerSchema(
+            componentsService.resolvePayloadSchema(
                     EnvelopWithMultipleAsyncApiPayloadAnnotations.class, CONTENT_TYPE_APPLICATION_YAML);
 
             String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
@@ -327,7 +328,7 @@ class DefaultYamlComponentsServiceTest {
     class JsonTypeTest {
         @Test
         void getJsonTypeDefinitions() throws IOException {
-            componentsService.registerSchema(
+            componentsService.resolvePayloadSchema(
                     DefaultJsonComponentsServiceTest.JsonTypeTest.JsonTypeInfoPayloadDto.class,
                     CONTENT_TYPE_APPLICATION_YAML);
 

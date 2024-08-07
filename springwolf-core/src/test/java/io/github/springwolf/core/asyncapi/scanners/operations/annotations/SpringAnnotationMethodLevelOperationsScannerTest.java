@@ -12,6 +12,7 @@ import io.github.springwolf.asyncapi.v3.model.channel.message.MessageHeaders;
 import io.github.springwolf.asyncapi.v3.model.channel.message.MessageObject;
 import io.github.springwolf.asyncapi.v3.model.channel.message.MessagePayload;
 import io.github.springwolf.asyncapi.v3.model.channel.message.MessageReference;
+import io.github.springwolf.asyncapi.v3.model.components.ComponentSchema;
 import io.github.springwolf.asyncapi.v3.model.operation.Operation;
 import io.github.springwolf.asyncapi.v3.model.operation.OperationAction;
 import io.github.springwolf.asyncapi.v3.model.schema.MultiFormatSchema;
@@ -21,8 +22,8 @@ import io.github.springwolf.core.asyncapi.components.ComponentsService;
 import io.github.springwolf.core.asyncapi.scanners.bindings.BindingFactory;
 import io.github.springwolf.core.asyncapi.scanners.common.headers.AsyncHeadersNotDocumented;
 import io.github.springwolf.core.asyncapi.scanners.common.headers.HeaderClassExtractor;
-import io.github.springwolf.core.asyncapi.scanners.common.payload.NamedSchemaObject;
 import io.github.springwolf.core.asyncapi.scanners.common.payload.PayloadMethodParameterService;
+import io.github.springwolf.core.asyncapi.scanners.common.payload.PayloadSchemaObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -74,7 +75,8 @@ class SpringAnnotationMethodLevelOperationsScannerTest {
         doReturn(defaultMessageBinding).when(bindingFactory).buildMessageBinding(any(), any());
 
         when(payloadMethodParameterService.extractSchema(any()))
-                .thenReturn(new NamedSchemaObject(String.class.getName(), new SchemaObject(), null));
+                .thenReturn(new PayloadSchemaObject(
+                        String.class.getName(), String.class.getSimpleName(), ComponentSchema.of(new SchemaObject())));
         doAnswer(invocation -> AsyncHeadersNotDocumented.NOT_DOCUMENTED.getTitle())
                 .when(componentsService)
                 .registerSchema(any(SchemaObject.class));

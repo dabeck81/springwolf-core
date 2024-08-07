@@ -1,5 +1,6 @@
 {
   "io.github.springwolf.core.asyncapi.components.DefaultJsonComponentsServiceTest$CompositeFoo" : {
+    "title" : "CompositeFoo",
     "type" : "object",
     "properties" : {
       "f" : {
@@ -18,6 +19,7 @@
     } ]
   },
   "io.github.springwolf.core.asyncapi.components.DefaultJsonComponentsServiceTest$FooWithEnum" : {
+    "title" : "FooWithEnum",
     "type" : "object",
     "properties" : {
       "b" : {
@@ -34,6 +36,7 @@
     } ]
   },
   "io.github.springwolf.core.asyncapi.components.DefaultJsonComponentsServiceTest$SimpleFoo" : {
+    "title" : "SimpleFoo",
     "type" : "object",
     "properties" : {
       "b" : {

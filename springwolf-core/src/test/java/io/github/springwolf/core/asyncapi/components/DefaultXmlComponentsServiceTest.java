@@ -14,6 +14,7 @@ import io.github.springwolf.core.asyncapi.components.examples.walkers.xml.Exampl
 import io.github.springwolf.core.asyncapi.components.postprocessors.ExampleGeneratorPostProcessor;
 import io.github.springwolf.core.asyncapi.schemas.SwaggerSchemaService;
 import io.github.springwolf.core.asyncapi.schemas.SwaggerSchemaUtil;
+import io.github.springwolf.core.asyncapi.schemas.converters.SchemaTitleModelConverter;
 import io.github.springwolf.core.configuration.properties.SpringwolfConfigProperties;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -42,24 +43,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DefaultXmlComponentsServiceTest {
-    private final SwaggerSchemaService schemaService = new SwaggerSchemaService(
-            List.of(),
-            List.of(new ExampleGeneratorPostProcessor(new SchemaWalkerProvider(List.of(
-                    new DefaultSchemaWalker<>(new ExampleXmlValueGenerator(new DefaultExampleXmlValueSerializer())))))),
-            new SwaggerSchemaUtil(),
-            new SpringwolfConfigProperties());
-    private final ComponentsService componentsService = new DefaultComponentsService(schemaService);
 
     private static final ObjectMapper objectMapper =
             Json.mapper().enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
 
     private static final PrettyPrinter printer =
             new DefaultPrettyPrinter().withObjectIndenter(new DefaultIndenter("  ", DefaultIndenter.SYS_LF));
+    private final SwaggerSchemaService schemaService = new SwaggerSchemaService(
+            List.of(new SchemaTitleModelConverter()),
+            List.of(new ExampleGeneratorPostProcessor(new SchemaWalkerProvider(List.of(
+                    new DefaultSchemaWalker<>(new ExampleXmlValueGenerator(new DefaultExampleXmlValueSerializer())))))),
+            new SwaggerSchemaUtil(),
+            new SpringwolfConfigProperties());
+    private final ComponentsService componentsService = new DefaultComponentsService(schemaService);
 
     @Test
     void getSchemas() throws IOException {
-        componentsService.registerSchema(CompositeFoo.class, "text/xml");
-        componentsService.registerSchema(FooWithEnum.class, "text/xml");
+        componentsService.resolvePayloadSchema(CompositeFoo.class, "text/xml");
+        componentsService.resolvePayloadSchema(FooWithEnum.class, "text/xml");
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/xml/definitions-xml.json");
@@ -70,7 +71,7 @@ class DefaultXmlComponentsServiceTest {
 
     @Test
     void getDocumentedDefinitions() throws IOException {
-        componentsService.registerSchema(DocumentedSimpleFoo.class, "text/xml");
+        componentsService.resolvePayloadSchema(DocumentedSimpleFoo.class, "text/xml");
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/xml/documented-definitions-xml.json");
@@ -81,7 +82,7 @@ class DefaultXmlComponentsServiceTest {
 
     @Test
     void getArrayDefinitions() throws IOException {
-        componentsService.registerSchema(ArrayFoo.class, "text/xml");
+        componentsService.resolvePayloadSchema(ArrayFoo.class, "text/xml");
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/xml/array-definitions-xml.json");
@@ -92,7 +93,7 @@ class DefaultXmlComponentsServiceTest {
 
     @Test
     void getComplexDefinitions() throws IOException {
-        componentsService.registerSchema(ComplexFoo.class, "text/xml");
+        componentsService.resolvePayloadSchema(ComplexFoo.class, "text/xml");
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/xml/complex-definitions-xml.json");
@@ -103,7 +104,7 @@ class DefaultXmlComponentsServiceTest {
 
     @Test
     void getComplexDefinitionsWithAttributes() throws IOException {
-        componentsService.registerSchema(ComplexAttributesFoo.class, "text/xml");
+        componentsService.resolvePayloadSchema(ComplexAttributesFoo.class, "text/xml");
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/xml/complex-definitions-with-attributes-xml.json");
@@ -114,7 +115,7 @@ class DefaultXmlComponentsServiceTest {
 
     @Test
     void getListWrapperDefinitions() throws IOException {
-        componentsService.registerSchema(ListWrapper.class, "text/xml");
+        componentsService.resolvePayloadSchema(ListWrapper.class, "text/xml");
 
         String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
         String expected = jsonResource("/schemas/xml/generics-wrapper-definitions-xml.json");
@@ -245,7 +246,7 @@ class DefaultXmlComponentsServiceTest {
     class SchemaWithOneOf {
         @Test
         void testSchemaWithOneOf() throws IOException {
-            componentsService.registerSchema(SchemaAnnotationFoo.class, "text/xml");
+            componentsService.resolvePayloadSchema(SchemaAnnotationFoo.class, "text/xml");
 
             String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
             String expected = jsonResource("/schemas/xml/annotation-definitions-xml.json");
@@ -344,8 +345,8 @@ class DefaultXmlComponentsServiceTest {
     class XmlSchemaName {
         @Test
         void testSchemasWithSharedProperty() throws IOException {
-            componentsService.registerSchema(XmlSchemaName.ClassB.class, "text/xml");
-            componentsService.registerSchema(XmlSchemaName.ClassA.class, "text/xml");
+            componentsService.resolvePayloadSchema(XmlSchemaName.ClassB.class, "text/xml");
+            componentsService.resolvePayloadSchema(XmlSchemaName.ClassA.class, "text/xml");
 
             String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
             String expected = jsonResource("/schemas/xml/schema-with-shared-property.json");
@@ -385,7 +386,7 @@ class DefaultXmlComponentsServiceTest {
     class AsyncApiPayloadTest {
         @Test
         void stringEnvelopTest() throws IOException {
-            componentsService.registerSchema(StringEnvelop.class, "text/xml");
+            componentsService.resolvePayloadSchema(StringEnvelop.class, "text/xml");
 
             String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
             String expected = jsonResource("/schemas/xml/api-payload-xml.json");
@@ -398,7 +399,7 @@ class DefaultXmlComponentsServiceTest {
 
         @Test
         void illegalEnvelopTest() throws IOException {
-            componentsService.registerSchema(EnvelopWithMultipleAsyncApiPayloadAnnotations.class, "text/xml");
+            componentsService.resolvePayloadSchema(EnvelopWithMultipleAsyncApiPayloadAnnotations.class, "text/xml");
 
             String actualDefinitions = objectMapper.writer(printer).writeValueAsString(componentsService.getSchemas());
 

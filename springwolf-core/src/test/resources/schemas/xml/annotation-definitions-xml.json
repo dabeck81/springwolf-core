@@ -1,5 +1,6 @@
 {
   "io.github.springwolf.core.asyncapi.components.DefaultXmlComponentsServiceTest$SchemaWithOneOf$AllOf" : {
+    "title" : "AllOf",
     "type" : "string",
     "examples" : [ "<AllOf><firstOne>string</firstOne><firstTwo>0</firstTwo><secondOne>string</secondOne><secondTwo>true</secondTwo></AllOf>" ],
     "allOf" : [ {
@@ -9,6 +10,7 @@
     } ]
   },
   "io.github.springwolf.core.asyncapi.components.DefaultXmlComponentsServiceTest$SchemaWithOneOf$AnyOf" : {
+    "title" : "AnyOf",
     "type" : "string",
     "examples" : [ "<AnyOf><firstOne>string</firstOne><secondOne>string</secondOne></AnyOf>" ],
     "anyOf" : [ {
@@ -43,8 +45,9 @@
     "examples" : [ "<ImplementationTwo><firstTwo>0</firstTwo><secondTwo>true</secondTwo></ImplementationTwo>" ]
   },
   "io.github.springwolf.core.asyncapi.components.DefaultXmlComponentsServiceTest$SchemaWithOneOf$OneOf" : {
+    "title" : "OneOf",
     "type" : "string",
-    "examples" : [ "<ImplementationOne><firstOne>string</firstOne><secondOne>string</secondOne></ImplementationOne>" ],
+    "examples" : [ "<OneOf><firstOne>string</firstOne><secondOne>string</secondOne></OneOf>" ],
     "oneOf" : [ {
       "$ref" : "#/components/schemas/io.github.springwolf.core.asyncapi.components.DefaultXmlComponentsServiceTest$SchemaWithOneOf$ImplementationOne"
     }, {
@@ -52,6 +55,7 @@
     } ]
   },
   "io.github.springwolf.core.asyncapi.components.DefaultXmlComponentsServiceTest$SchemaWithOneOf$SchemaAnnotationFoo" : {
+    "title" : "SchemaAnnotationFoo",
     "type" : "string",
     "properties" : {
       "allOf" : {
@@ -67,6 +71,6 @@
         "$ref" : "#/components/schemas/io.github.springwolf.core.asyncapi.components.DefaultXmlComponentsServiceTest$SchemaWithOneOf$OneOf"
       }
     },
-    "examples" : [ "<SchemaAnnotationFoo><AllOf><firstOne>string</firstOne><firstTwo>0</firstTwo><secondOne>string</secondOne><secondTwo>true</secondTwo></AllOf><AnyOf><firstOne>string</firstOne><secondOne>string</secondOne></AnyOf><field>string</field><ImplementationOne><firstOne>string</firstOne><secondOne>string</secondOne></ImplementationOne></SchemaAnnotationFoo>" ]
+    "examples" : [ "<SchemaAnnotationFoo><allOf><firstOne>string</firstOne><firstTwo>0</firstTwo><secondOne>string</secondOne><secondTwo>true</secondTwo></allOf><anyOf><firstOne>string</firstOne><secondOne>string</secondOne></anyOf><field>string</field><oneOf><firstOne>string</firstOne><secondOne>string</secondOne></oneOf></SchemaAnnotationFoo>" ]
   }
 }

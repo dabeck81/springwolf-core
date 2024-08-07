@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 package io.github.springwolf.core.asyncapi.scanners.common.headers;
 
+import io.github.springwolf.asyncapi.v3.model.components.ComponentSchema;
 import io.github.springwolf.asyncapi.v3.model.schema.SchemaObject;
-import io.github.springwolf.core.asyncapi.scanners.common.payload.NamedSchemaObject;
+import io.github.springwolf.core.asyncapi.scanners.common.payload.PayloadSchemaObject;
 import io.github.springwolf.core.asyncapi.schemas.SwaggerSchemaService;
 import lombok.val;
 import org.junit.jupiter.api.Test;
@@ -21,8 +22,8 @@ class HeaderClassExtractorTest {
     private final SwaggerSchemaService schemaService = mock(SwaggerSchemaService.class);
     private final HeaderClassExtractor headerClassExtractor = new HeaderClassExtractor(schemaService);
 
-    private final NamedSchemaObject payloadSchemaName =
-            new NamedSchemaObject("payloadSchemaName", new SchemaObject(), null);
+    private final PayloadSchemaObject payloadSchemaName = new PayloadSchemaObject(
+            "payloadSchemaName", String.class.getSimpleName(), ComponentSchema.of(new SchemaObject()));
     private final SchemaObject stringSchema =
             SchemaObject.builder().type("string").build();
     private final SchemaObject stringSwaggerSchema =

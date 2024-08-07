@@ -7,6 +7,7 @@ import io.github.springwolf.core.asyncapi.scanners.common.payload.internal.Paylo
 import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -14,8 +15,8 @@ public class PayloadAsyncOperationService {
     private final PayloadClassExtractor payloadClassExtractor;
     private final PayloadService payloadService;
 
-    public NamedSchemaObject extractSchema(AsyncOperation operationData, Method method) {
-        Optional<Class<?>> payloadType = operationData.payloadType() != Object.class
+    public PayloadSchemaObject extractSchema(AsyncOperation operationData, Method method) {
+        Optional<Type> payloadType = operationData.payloadType() != Object.class
                 ? Optional.of(operationData.payloadType())
                 : payloadClassExtractor.extractFrom(method);
 
