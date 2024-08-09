@@ -23,6 +23,7 @@ public class PayloadService {
             PAYLOAD_NOT_USED_KEY,
             PAYLOAD_NOT_USED_KEY,
             ComponentSchema.of(SchemaObject.builder()
+                    .type("string")
                     .title(PAYLOAD_NOT_USED_KEY)
                     .description("No payload specified")
                     .properties(Map.of())

@@ -2,6 +2,7 @@
 export type ServerAsyncApiSchemaOrRef = ServerAsyncApiSchema | { $ref: string };
 
 export interface ServerAsyncApiSchema {
+  title?: string; // TODO: is this always present?
   description?: string;
   type: string;
   format?: string;

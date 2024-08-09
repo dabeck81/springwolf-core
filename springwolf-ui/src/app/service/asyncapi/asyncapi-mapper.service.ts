@@ -264,12 +264,12 @@ export class AsyncApiMapperService {
               description: message.description,
               contentType: message.contentType || defaultContentType,
               payload: {
-                name: message.payload.schema.$ref,
-                title: this.resolveRef(message.payload.schema.$ref),
-                type: this.resolveRef(message.payload.schema.$ref),
+                name: "$ref" in message.payload.schema ? message.payload.schema.$ref : message.payload.schema.type, // TODO:
+                title: "$ref" in message.payload.schema ? this.resolveRef(message.payload.schema.$ref): message.payload.schema.title ? message.payload.schema.title: "TODO" ,
+                type: this.resolveRef("$ref" in message.payload.schema ? message.payload.schema.$ref : message.payload.schema.type),
                 anchorUrl:
-                  AsyncApiMapperService.BASE_URL +
-                  this.resolveRef(message.payload.schema.$ref),
+                  "$ref" in message.payload.schema ? AsyncApiMapperService.BASE_URL +
+                  this.resolveRef(message.payload.schema.$ref): "TODO",
               },
               headers: {
                 name: message.headers.$ref,
