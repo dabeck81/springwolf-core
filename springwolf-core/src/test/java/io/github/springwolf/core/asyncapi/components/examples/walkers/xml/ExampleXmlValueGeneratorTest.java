@@ -76,8 +76,9 @@ class ExampleXmlValueGeneratorTest {
 
     @Test
     void cacheShouldStoreExampleBySchemaName() {
-
-        ExampleXmlValueGenerator generator = new ExampleXmlValueGenerator(new DefaultExampleXmlValueSerializer());
+        // given
+        DefaultExampleXmlValueSerializer serializer = new DefaultExampleXmlValueSerializer();
+        ExampleXmlValueGenerator generator = new ExampleXmlValueGenerator(serializer);
 
         StringSchema schema1 = new StringSchema();
         schema1.setName("full.a.schema1");
@@ -100,7 +101,8 @@ class ExampleXmlValueGeneratorTest {
     @Test
     void shouldCreateRawFromXmlString() {
         // given
-        ExampleXmlValueGenerator generator = new ExampleXmlValueGenerator(new DefaultExampleXmlValueSerializer());
+        DefaultExampleXmlValueSerializer serializer = new DefaultExampleXmlValueSerializer();
+        ExampleXmlValueGenerator generator = new ExampleXmlValueGenerator(serializer);
         generator.initialize();
 
         // when
