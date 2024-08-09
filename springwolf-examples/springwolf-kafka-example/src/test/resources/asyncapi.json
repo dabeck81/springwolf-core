@@ -72,14 +72,14 @@
     "multi-payload-topic": {
       "address": "multi-payload-topic",
       "messages": {
-        "io.github.springwolf.examples.kafka.dtos.AnotherPayloadDto": {
-          "$ref": "#/components/messages/io.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
-        },
         "io.github.springwolf.examples.kafka.dtos.ExamplePayloadDto": {
           "$ref": "#/components/messages/io.github.springwolf.examples.kafka.dtos.ExamplePayloadDto"
         },
         "javax.money.MonetaryAmount": {
           "$ref": "#/components/messages/javax.money.MonetaryAmount"
+        },
+        "org.apache.kafka.clients.consumer.ConsumerRecordJava.lang.VoidIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto": {
+          "$ref": "#/components/messages/org.apache.kafka.clients.consumer.ConsumerRecordJava.lang.VoidIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
         }
       }
     },
@@ -398,23 +398,23 @@
           "type": "object"
         }
       },
-      "SpringKafkaDefaultHeaders-AnotherPayloadDto": {
+      "SpringKafkaDefaultHeaders-ConsumerRecordVoidAnotherPayloadDto": {
         "type": "object",
         "properties": {
           "__TypeId__": {
             "type": "string",
             "description": "Spring Type Id Header",
             "enum": [
-              "io.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
+              "org.apache.kafka.clients.consumer.ConsumerRecordJava.lang.VoidIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
             ],
             "examples": [
-              "io.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
+              "org.apache.kafka.clients.consumer.ConsumerRecordJava.lang.VoidIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
             ]
           }
         },
         "examples": [
           {
-            "__TypeId__": "io.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
+            "__TypeId__": "org.apache.kafka.clients.consumer.ConsumerRecordJava.lang.VoidIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
           }
         ],
         "x-json-schema": {
@@ -423,7 +423,7 @@
             "__TypeId__": {
               "description": "Spring Type Id Header",
               "enum": [
-                "io.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
+                "org.apache.kafka.clients.consumer.ConsumerRecordJava.lang.VoidIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
               ],
               "type": "string"
             }
@@ -1456,6 +1456,18 @@
           },
           "type": "object"
         }
+      },
+      "org.apache.kafka.clients.consumer.ConsumerRecordJava.lang.VoidIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto": {
+        "title": "ConsumerRecord",
+        "type": "object",
+        "examples": [
+          { }
+        ],
+        "x-json-schema": {
+          "$schema": "https://json-schema.org/draft-04/schema#",
+          "title": "ConsumerRecord",
+          "type": "object"
+        }
       }
     },
     "messages": {
@@ -1467,6 +1479,7 @@
           "schemaFormat": "application/vnd.aai.asyncapi+json;version=3.0.0",
           "schema": {
             "title": "PayloadNotUsed",
+            "type": "string",
             "properties": { },
             "description": "No payload specified"
           }
@@ -1529,24 +1542,6 @@
         },
         "name": "io.github.springwolf.examples.kafka.dto.proto.ExamplePayloadProtobufDto$Message",
         "title": "Message",
-        "bindings": {
-          "kafka": {
-            "bindingVersion": "0.5.0"
-          }
-        }
-      },
-      "io.github.springwolf.examples.kafka.dtos.AnotherPayloadDto": {
-        "headers": {
-          "$ref": "#/components/schemas/SpringKafkaDefaultHeaders-AnotherPayloadDto"
-        },
-        "payload": {
-          "schemaFormat": "application/vnd.aai.asyncapi+json;version=3.0.0",
-          "schema": {
-            "$ref": "#/components/schemas/io.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
-          }
-        },
-        "name": "io.github.springwolf.examples.kafka.dtos.AnotherPayloadDto",
-        "title": "AnotherPayloadDto",
         "bindings": {
           "kafka": {
             "bindingVersion": "0.5.0"
@@ -1744,6 +1739,24 @@
             "bindingVersion": "0.5.0"
           }
         }
+      },
+      "org.apache.kafka.clients.consumer.ConsumerRecordJava.lang.VoidIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto": {
+        "headers": {
+          "$ref": "#/components/schemas/SpringKafkaDefaultHeaders-ConsumerRecordVoidAnotherPayloadDto"
+        },
+        "payload": {
+          "schemaFormat": "application/vnd.aai.asyncapi+json;version=3.0.0",
+          "schema": {
+            "$ref": "#/components/schemas/org.apache.kafka.clients.consumer.ConsumerRecordJava.lang.VoidIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
+          }
+        },
+        "name": "org.apache.kafka.clients.consumer.ConsumerRecordJava.lang.VoidIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto",
+        "title": "ConsumerRecordVoidAnotherPayloadDto",
+        "bindings": {
+          "kafka": {
+            "bindingVersion": "0.5.0"
+          }
+        }
       }
     }
   },
@@ -1835,7 +1848,7 @@
           "$ref": "#/channels/multi-payload-topic/messages/io.github.springwolf.examples.kafka.dtos.ExamplePayloadDto"
         },
         {
-          "$ref": "#/channels/multi-payload-topic/messages/io.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
+          "$ref": "#/channels/multi-payload-topic/messages/org.apache.kafka.clients.consumer.ConsumerRecordJava.lang.VoidIo.github.springwolf.examples.kafka.dtos.AnotherPayloadDto"
         },
         {
           "$ref": "#/channels/multi-payload-topic/messages/javax.money.MonetaryAmount"
