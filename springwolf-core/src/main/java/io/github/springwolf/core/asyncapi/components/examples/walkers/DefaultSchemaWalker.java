@@ -159,7 +159,6 @@ public class DefaultSchemaWalker<T, R> implements SchemaWalker<R> {
             String name, Schema schema, Map<String, Schema> definitions, Set<Schema> visited) {
         Optional<Schema<?>> resolvedSchema = resolveSchemaFromRef(schema, definitions);
         if (resolvedSchema.isPresent()) {
-            //            name = exampleValueGenerator.lookupSchemaName(resolvedSchema.get()).orElse(name);
             return buildExample(name, resolvedSchema.get(), definitions, visited);
         }
 
