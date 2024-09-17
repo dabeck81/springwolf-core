@@ -37,12 +37,12 @@ ext {
 
     commonsLang3Version = '3.17.0'
 
-    kafkaAvroSerializerVersion = '7.7.0'
+    kafkaAvroSerializerVersion = '7.7.1'
 
     kafkaClientsVersion = '3.7.1'
     kafkaStreamsVersion = '3.8.0'
 
-    kafkaProtobufSerializerVersion = '7.7.0'
+    kafkaProtobufSerializerVersion = '7.7.1'
 
     jacksonVersion = '2.17.2'
     jacksonDatatypeProtobufVersion = '0.9.15'
@@ -60,7 +60,7 @@ ext {
     monetaVersion = '1.4.4'
     moneyApiVersion = '1.1'
 
-    protobufJavaVersion = '4.28.0'
+    protobufJavaVersion = '4.28.1'
 
     junitJupiterVersion = '5.10.3'
     jsonUnitAssertJVersion = '3.4.1'
